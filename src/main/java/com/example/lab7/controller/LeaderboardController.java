@@ -27,10 +27,34 @@ public class LeaderboardController {
     @GetMapping("/dota/jugadores/leaderboard")
     public List<Jugadores> listaLeaderboard(){
 
+        /*LISTA LOS 10 CON MAS MMR, SOLO FALTA POSICIONARLOS:(*/
+
         List<Jugadores> jugadoresConLosRequisitosMinParaElLB = jugadoresRepository.jugadoresConLosRequisitosMinParaElLB();
+        boolean verdadero = true;
+        List<Jugadores> leaderBoard = new ArrayList<>();
+        Integer i = 0;
+        while(verdadero){
+            if(i == jugadoresConLosRequisitosMinParaElLB.size()){
+                break;
+            }
+            Jugadores jugador1 = jugadoresConLosRequisitosMinParaElLB.get(i);
+            BigInteger mmr_jugador1 = jugador1.getMmr();
+            Integer posicion = jugadoresConLosRequisitosMinParaElLB.size();
+            for (Jugadores jugadores : jugadoresConLosRequisitosMinParaElLB) {
+                BigInteger mmr_jugador2 = jugadores.getMmr();
+                int comparacion = mmr_jugador1.compareTo(mmr_jugador2);
+                System.out.println("holaaaaa " + comparacion);
+                if (comparacion == 1){
+                    posicion = posicion - 1;
+                }
+            }
+            if(jugadoresConLosRequisitosMinParaElLB.size() - posicion <= 10){
+                leaderBoard.add(jugador1);
+            }
+            i++;
+        }
 
-
-        return jugadoresConLosRequisitosMinParaElLB;
+        return leaderBoard;
     }
 
     @PostMapping("/dota/jugadores/save")
