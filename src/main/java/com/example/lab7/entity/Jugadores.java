@@ -12,11 +12,11 @@ import java.math.BigInteger;
 public class Jugadores {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="playerId")
+    @Column(name="player_id")
     private int id;
     @Column(nullable = false)
     private String name;
     private BigInteger mmr;
-    private int position;
+    private Integer position;
     private String region;
 }

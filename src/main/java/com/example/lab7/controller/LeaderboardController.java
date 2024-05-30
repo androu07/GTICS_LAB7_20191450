@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +26,11 @@ public class LeaderboardController {
 
     @GetMapping("/dota/jugadores/leaderboard")
     public List<Jugadores> listaLeaderboard(){
-        return jugadoresRepository.findAll();
+
+        List<Jugadores> jugadoresConLosRequisitosMinParaElLB = jugadoresRepository.jugadoresConLosRequisitosMinParaElLB();
+
+
+        return jugadoresConLosRequisitosMinParaElLB;
     }
 
     @PostMapping("/dota/jugadores/save")
@@ -47,8 +54,8 @@ public class LeaderboardController {
 
         HashMap<String, Object> responseMap = new HashMap<>();
 
-        Optional<Jugadores> optPersonajes = jugadoresRepository.findById(jugadores.getId());
-        if(optPersonajes.isPresent()){
+        Optional<Jugadores> optJugadores = jugadoresRepository.findById(jugadores.getId());
+        if(optJugadores.isPresent()){
             jugadoresRepository.save(jugadores);
             responseMap.put("jugador actualizado con exito", jugadores);
             return ResponseEntity.ok(responseMap);
